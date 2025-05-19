@@ -1,15 +1,22 @@
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
-import 'package:get/get.dart';
+import 'app/app.dart';
+import 'app/core/utils/logging/loggerformain.dart';
 
-import 'app/routes/app_pages.dart';
 
-void main() {
-  runApp(
-    GetMaterialApp(
-      title: "Application",
-      initialRoute: AppPages.INITIAL,
-      getPages: AppPages.routes,
-    ),
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  //await AuthService.init();
+  //await StorageService.initialize(); // Initialize Hive
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then(
+        (value) {
+      Logger.init(kReleaseMode ? LogMode.live : LogMode.debug);
+      runApp(const MyApp());
+    },
   );
 }
+
+
