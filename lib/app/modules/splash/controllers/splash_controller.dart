@@ -1,7 +1,7 @@
 import 'dart:async';
-
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 
 class SplashController extends GetxController
     with GetSingleTickerProviderStateMixin {
@@ -13,8 +13,7 @@ class SplashController extends GetxController
   void onInit() {
     super.onInit();
     setupAnimations();
-    //navigateToHomeScreen();
-
+    navigateToNextScreen();
   }
 
   void setupAnimations() {
@@ -34,22 +33,21 @@ class SplashController extends GetxController
     animationController.forward();
   }
 
-  // void navigateToHomeScreen() async {
-  //   Future.delayed(const Duration(milliseconds: 1500));
-  //   await AuthService.init();
-  //
-  //   bool hasToken = AuthService.hasToken();
-  //
-  //   if (hasToken) {
-  //     Get.offAllNamed(AppRoute.bottomNevScreen);
-  //   } else {
-  //     Get.offAllNamed(AppRoute.onboardingScreen);
-  //   }
-  // }
+  void navigateToNextScreen() async {
+    await Future.delayed(const Duration(milliseconds: 2500));
 
-  @override
-  void onClose() {
-    animationController.dispose();
-    super.onClose();
+    //bool hasToken = AuthService.hasToken();
+    GoRouter.of(Get.context!).go('/auth');
+    //   if (hasToken) {
+    //     GoRouter.of(Get.context!).go('/home');
+    //   } else {
+    //     GoRouter.of(Get.context!).go('/auth');
+    //   }
+    // }
   }
-}
+    @override
+    void onClose() {
+      animationController.dispose();
+      super.onClose();
+    }
+  }

@@ -1,7 +1,6 @@
 import 'package:caretutor_project/app/core/utils/constants/app_sizer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-
 import 'package:get/get.dart';
 
 import '../../../core/utils/constants/app_colors.dart';
@@ -14,31 +13,50 @@ class SplashView extends GetView<SplashController> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<SplashController>(
-      init: SplashController(),
       builder: (controller) {
         return Scaffold(
-          backgroundColor: const Color(0xffF9D2E0), // Figma background color
+          backgroundColor: const Color(0xffF9D2E0),
           body: Stack(
             fit: StackFit.expand,
             children: [
-              // Background gradient (update if needed to match the Figma gradient)
+              // Background gradient
               Container(
-                decoration:  BoxDecoration(
-                  gradient: AppColors.linearGradient, // Ensure this matches Figma's background gradient
+                decoration: BoxDecoration(
+                  gradient: AppColors.linearGradient,
                 ),
               ),
-              // Animated logo with adjustments from Figma design
+              // Animated logo
               Center(
-                child: Image.asset(
-                  LogoPath.logoPng,
-                  fit: BoxFit.contain,
-                  height: 150.h, // Adjust the height based on the Figma design
-                  width: 200.w,  // Adjust the width based on the Figma design
+                child: ScaleTransition(
+                  scale: controller.scaleAnimation,
+                  child: FadeTransition(
+                    opacity: controller.fadeAnimation,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          LogoPath.logoPng,
+                          fit: BoxFit.contain,
+                          height: 150.h,
+                          width: 200.w,
+                        ),
+                        SizedBox(height: 20.h),
+                        Text(
+                          'Notes App',
+                          style: TextStyle(
+                            fontSize: 24.sp,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.textPrimary,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ),
-              // Loading indicator (positioning might be adjusted based on Figma)
+              // Loading indicator
               Positioned(
-                bottom: 80,  // Adjusted from 100 to match Figma
+                bottom: 80,
                 left: 0,
                 right: 0,
                 child: FadeTransition(
@@ -47,7 +65,7 @@ class SplashView extends GetView<SplashController> {
                     children: [
                       Center(
                         child: SpinKitFadingCircle(
-                          color: const Color(0xff760a13),  // Ensure primary color matches Figma
+                          color: const Color(0xff760a13),
                           size: 50.sp,
                         ),
                       ),
