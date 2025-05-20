@@ -22,7 +22,7 @@ class SplashView extends GetView<SplashController> {
               // Background gradient
               Container(
                 decoration: BoxDecoration(
-                  gradient: AppColors.linearGradient,
+                  color: AppColors.white,
                 ),
               ),
               // Animated logo
@@ -46,7 +46,8 @@ class SplashView extends GetView<SplashController> {
                           style: TextStyle(
                             fontSize: 24.sp,
                             fontWeight: FontWeight.bold,
-                            color: AppColors.textPrimary,
+                            color: AppColors.primary
+                            ,
                           ),
                         ),
                       ],
@@ -65,7 +66,7 @@ class SplashView extends GetView<SplashController> {
                     children: [
                       Center(
                         child: SpinKitFadingCircle(
-                          color: const Color(0xff760a13),
+                          color: AppColors.primary,
                           size: 50.sp,
                         ),
                       ),
