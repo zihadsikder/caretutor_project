@@ -125,7 +125,7 @@ class SignupForm extends GetView<AuthController> {
                 ? null
                 : () {
               if (_formKey.currentState!.validate()) {
-                //controller.signUp();
+                controller.signUp();
               }
             },
             style: ElevatedButton.styleFrom(

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../constants/app_colors.dart';
+
 class AppElevatedButtonTheme {
   AppElevatedButtonTheme._();
 
@@ -34,9 +36,9 @@ class AppElevatedButtonTheme {
   static final ElevatedButtonThemeData lightElevatedButtonTheme = _baseTheme(
     defaultTextColor: Colors.white,
     disabledTextColor: Colors.grey,
-    defaultBackgroundColor: Colors.blue,
+    defaultBackgroundColor: AppColors.primary,
     disabledBackgroundColor: Colors.grey.shade300,
-    borderColor: Colors.blue,
+    borderColor:  AppColors.primary,
   );
 
   static final ElevatedButtonThemeData darkElevatedButtonTheme = _baseTheme(

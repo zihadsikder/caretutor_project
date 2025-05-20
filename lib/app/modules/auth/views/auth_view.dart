@@ -14,9 +14,10 @@ class AuthView extends GetView<AuthController> {
 
   @override
   Widget build(BuildContext context) {
-    final AuthTabController authTabController = Get.find<AuthTabController>();
+    final AuthTabController authTabController = Get.put(AuthTabController());
 
     return Scaffold(
+
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.all(20.w),
@@ -42,7 +43,7 @@ class AuthView extends GetView<AuthController> {
                 padding: EdgeInsets.all(8.w),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
-                  color: Colors.grey[100],
+                  color: AppColors.secondary.withOpacity(0.30),
                 ),
                 child: TabBar(
                   controller: authTabController.tabController,
@@ -50,7 +51,7 @@ class AuthView extends GetView<AuthController> {
                   indicatorSize: TabBarIndicatorSize.tab,
                   indicator: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    color: AppColors.secondary,
+                    color: AppColors.primary,
                   ),
                   labelColor: Colors.white,
                   unselectedLabelColor: Colors.black,

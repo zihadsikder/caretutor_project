@@ -17,6 +17,7 @@ dependencies:
   firebase_core:
   firebase_auth:
   cloud_firestore:
+  get_storage:
   get: ^4.7.2
   http: ^1.1.0
   intl: ^0.18.1

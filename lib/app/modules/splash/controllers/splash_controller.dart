@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../services/auth_services.dart';
+
 class SplashController extends GetxController
     with GetSingleTickerProviderStateMixin {
   late AnimationController animationController;
@@ -36,15 +38,21 @@ class SplashController extends GetxController
   void navigateToNextScreen() async {
     await Future.delayed(const Duration(milliseconds: 2500));
 
-    //bool hasToken = AuthService.hasToken();
-    GoRouter.of(Get.context!).go('/auth');
-    //   if (hasToken) {
-    //     GoRouter.of(Get.context!).go('/home');
-    //   } else {
-    //     GoRouter.of(Get.context!).go('/auth');
-    //   }
-    // }
+    final hasToken = AuthService.hasToken();
+
+    // Wait for Get.context to be available
+    while (Get.context == null) {
+      await Future.delayed(const Duration(milliseconds: 100));
+    }
+
+    // Now it's safe to navigate
+    if (hasToken) {
+      GoRouter.of(Get.context!).go('/home');
+    } else {
+      GoRouter.of(Get.context!).go('/auth');
+    }
   }
+
     @override
     void onClose() {
       animationController.dispose();
