@@ -35,7 +35,6 @@ class AuthService {
     await _box.remove(_tokenKey);
     await _box.remove(_userIdKey);
   }
-
   static Future<UserCredential> signInWithEmailAndPassword(
       String email, String password) async {
     try {
@@ -44,16 +43,18 @@ class AuthService {
         password: password,
       );
 
-      // Save token and user ID
       final User? user = userCredential.user;
       if (user != null) {
-        final String token = await user.getIdToken() ?? '';
-        await saveToken(token);
+        final String? token = await user.getIdToken();
+        await saveToken(token!);
         await saveUserId(user.uid);
+      } else {
+        throw Exception('User is null after sign in.');
       }
 
       return userCredential;
     } catch (e) {
+      print('Unexpected sign-in error: $e');
       rethrow;
     }
   }
@@ -66,16 +67,18 @@ class AuthService {
         password: password,
       );
 
-      // Save token and user ID
       final User? user = userCredential.user;
       if (user != null) {
-        final String token = await user.getIdToken() ?? '';
-        await saveToken(token);
+        final String? token = await user.getIdToken();
+        await saveToken(token!);
         await saveUserId(user.uid);
+      } else {
+        throw Exception('User is null after account creation.');
       }
 
       return userCredential;
     } catch (e) {
+      print('Unexpected signup error: $e');
       rethrow;
     }
   }

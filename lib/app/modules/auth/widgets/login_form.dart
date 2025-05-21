@@ -14,7 +14,6 @@ class LoginForm extends GetView<AuthController> {
 
   @override
   Widget build(BuildContext context) {
-
     return Form(
       key: _formKey,
       child: Column(
@@ -61,7 +60,7 @@ class LoginForm extends GetView<AuthController> {
                 ? null
                 : () {
               if (_formKey.currentState!.validate()) {
-                controller.signIn();
+                controller.signIn(context); // Pass context
               }
             },
             style: ElevatedButton.styleFrom(

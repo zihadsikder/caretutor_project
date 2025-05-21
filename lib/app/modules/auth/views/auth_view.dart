@@ -11,13 +11,11 @@ import '../widgets/signup_form.dart';
 
 class AuthView extends GetView<AuthController> {
   const AuthView({super.key});
-
   @override
   Widget build(BuildContext context) {
     final AuthTabController authTabController = Get.put(AuthTabController());
 
     return Scaffold(
-
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.all(20.w),
@@ -43,7 +41,7 @@ class AuthView extends GetView<AuthController> {
                 padding: EdgeInsets.all(8.w),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
-                  color: AppColors.secondary.withOpacity(0.30),
+                  color: Colors.grey[100],
                 ),
                 child: TabBar(
                   controller: authTabController.tabController,
@@ -51,7 +49,7 @@ class AuthView extends GetView<AuthController> {
                   indicatorSize: TabBarIndicatorSize.tab,
                   indicator: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    color: AppColors.primary,
+                    color: AppColors.secondary,
                   ),
                   labelColor: Colors.white,
                   unselectedLabelColor: Colors.black,
@@ -69,7 +67,6 @@ class AuthView extends GetView<AuthController> {
                 ),
               ),
               SizedBox(height: 20.h),
-              // Tab Views
               Expanded(
                 child: TabBarView(
                   controller: authTabController.tabController,

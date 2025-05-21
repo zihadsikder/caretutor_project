@@ -1,12 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart' as foundation;
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import 'package:go_router/go_router.dart';
 
 import 'core/utils/constants/app_sizer.dart';
 import 'core/utils/constants/app_sizes.dart';
 import 'core/utils/theme/theme.dart';
+import 'modules/add_note/bindings/add_note_binding.dart';
+import 'modules/add_note/views/add_note_view.dart';
 import 'services/auth_services.dart';
 
 import 'modules/auth/bindings/auth_binding.dart';
@@ -45,6 +48,21 @@ class MyApp extends StatelessWidget {
         path: '/home',
         name: 'home',
         builder: (context, state) => const HomeView(),
+      ),
+      GoRoute(
+        path: '/add-note',
+        builder: (context, state) {
+          Get.put(AddNoteBinding().dependencies());
+          return AddNoteView();
+        },
+      ),
+      GoRoute(
+        path: '/edit-note/:id',
+        builder: (context, state) {
+          final noteId = state.pathParameters['id']!;
+          Get.put(AddNoteBinding().dependencies());
+          return AddNoteView(noteId: noteId);
+        },
       ),
     ],
     redirect: (context, state) {

@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/utils/constants/app_colors.dart';
-import '../../../data/common/widgets/app_snackber.dart';
 import '../../../services/auth_services.dart';
 
 class AuthController extends GetxController {
@@ -21,123 +20,148 @@ class AuthController extends GetxController {
   final isPasswordVisible = true.obs;
   final isLoading = false.obs;
 
+  // Store error message to display
+  final errorMessage = Rx<String?>(null);
+
   void togglePasswordVisibility() {
     isPasswordVisible.value = !isPasswordVisible.value;
   }
 
-  Future<void> signIn() async {
+  Future<void> signIn(BuildContext context) async {
+    // Reset error message
+    errorMessage.value = null;
+
     // Input validation
     String email = emailLoginController.text.trim();
     String password = passwordLoginController.text.trim();
 
     if (email.isEmpty || password.isEmpty) {
-      AppSnackBar.showError('Email and password cannot be empty.');
+      errorMessage.value = 'Email and password cannot be empty.';
       return;
     }
 
     isLoading.value = true;
 
     try {
+      // Show loading dialog
       Get.dialog(
-          Center(
-            child: SpinKitFadingCircle(
-              color: AppColors.secondary,
-              size: 40,
-            ),
+        Center(
+          child: SpinKitFadingCircle(
+            color: AppColors.secondary,
+            size: 40,
           ),
-          barrierDismissible: false
+        ),
+        barrierDismissible: false,
       );
 
       await AuthService.signInWithEmailAndPassword(email, password);
 
+      // Close loading dialog
       if (Get.isDialogOpen == true) {
         Get.back();
       }
 
-      GoRouter.of(Get.context!).go('/home');
+      // Navigate to home
+      if (context.mounted) {
+        GoRouter.of(context).go('/home');
+      }
 
     } on FirebaseAuthException catch (e) {
       if (Get.isDialogOpen == true) {
         Get.back();
       }
 
-      String errorMessage = 'An error occurred during sign in.';
+      String message = 'An error occurred during sign in.';
 
       if (e.code == 'user-not-found') {
-        errorMessage = 'No user found with this email.';
+        message = 'No user found with this email.';
       } else if (e.code == 'wrong-password') {
-        errorMessage = 'Wrong password provided.';
+        message = 'Wrong password provided.';
       } else if (e.code == 'invalid-email') {
-        errorMessage = 'The email address is not valid.';
+        message = 'The email address is not valid.';
       }
 
-      AppSnackBar.showError(errorMessage);
+      errorMessage.value = message;
+      print('Login error: $message');
     } catch (e) {
       if (Get.isDialogOpen == true) {
         Get.back();
       }
-      AppSnackBar.showError('An unexpected error occurred: ${e.toString()}');
+      errorMessage.value = 'An unexpected error occurred: ${e.toString()}';
+      print('Unexpected login error: $e');
     } finally {
       isLoading.value = false;
     }
   }
 
-  Future<void> signUp() async {
+  Future<void> signUp(BuildContext context) async {
+    // Reset error message
+    errorMessage.value = null;
+
     // Input validation
     String name = nameRegisterController.text.trim();
     String email = emailRegisterController.text.trim();
     String password = passwordRegisterController.text.trim();
 
     if (name.isEmpty || email.isEmpty || password.isEmpty) {
-      AppSnackBar.showError('All fields are required.');
+      errorMessage.value = 'All fields are required.';
       return;
     }
 
     isLoading.value = true;
 
     try {
+      // Show loading dialog
       Get.dialog(
-          Center(
-            child: SpinKitFadingCircle(
-              color: AppColors.secondary,
-              size: 40,
-            ),
+        Center(
+          child: SpinKitFadingCircle(
+            color: AppColors.secondary,
+            size: 40,
           ),
-          barrierDismissible: false
+        ),
+        barrierDismissible: false,
       );
 
-      await AuthService.createUserWithEmailAndPassword(email, password);
+      UserCredential userCredential = await AuthService.createUserWithEmailAndPassword(email, password);
 
       // Update user profile with name
-      await FirebaseAuth.instance.currentUser?.updateDisplayName(name);
+      if (userCredential.user != null) {
+        await userCredential.user!.updateDisplayName(name);
+      }
 
+      // Close loading dialog
       if (Get.isDialogOpen == true) {
         Get.back();
       }
 
-      GoRouter.of(Get.context!).go('/home');
+      // Navigate to home
+      if (context.mounted) {
+        GoRouter.of(context).go('/home');
+      }
 
     } on FirebaseAuthException catch (e) {
       if (Get.isDialogOpen == true) {
         Get.back();
       }
 
-      String errorMessage = 'An error occurred during registration.';
+      String message = 'An error occurred during registration.';
 
       if (e.code == 'weak-password') {
-        errorMessage = 'The password provided is too weak.';
+        message = 'The password provided is too weak.';
       } else if (e.code == 'email-already-in-use') {
-        errorMessage = 'An account already exists for this email.';
+        message = 'An account already exists for this email.';
       } else if (e.code == 'invalid-email') {
-        errorMessage = 'The email address is not valid.';
+        message = 'The email address is not valid.';
       }
 
-      AppSnackBar.showError(errorMessage);
+      errorMessage.value = message;
+      print('Signup error: $message');
     } catch (e) {
       if (Get.isDialogOpen == true) {
         Get.back();
       }
-      AppSnackBar.showError('An unexpected error occurred: ${e.toString()}');
+      errorMessage.value = 'An unexpected error occurred: ${e.toString()}';
+      print('Unexpected signup error: $e');
     } finally {
       isLoading.value = false;
     }

@@ -1,39 +1,60 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../core/utils/constants/app_colors.dart';
-
 class AppSnackBar {
-  static void showSuccess(String message) {
+
+  static void showSuccess(String message, {String title = 'Success'}) {
     Get.snackbar(
-      'Success',
+      title,
       message,
-      backgroundColor: Colors.green,
-      colorText: Colors.white,
       snackPosition: SnackPosition.BOTTOM,
-      margin: const EdgeInsets.all(16),
+      backgroundColor: Colors.green.withOpacity(0.9),
+      colorText: Colors.white,
+      borderRadius: 10.0,
+      margin: const EdgeInsets.all(10.0),
+      padding: const EdgeInsets.all(15.0),
+      duration: const Duration(seconds: 3),
+      icon: Icon(
+        Icons.error_outline,
+        color: Colors.white,
+        size: 30,
+      ),
+      isDismissible: true,
+      snackStyle: SnackStyle.FLOATING,
     );
   }
 
-  static void showError(String message) {
+  static showCustomErrorSnackBar({required String title, required String message,Color? color,Duration? duration})
+  {
     Get.snackbar(
-      'Error',
+      title,
       message,
-      backgroundColor: Colors.red,
+      duration: duration ?? const Duration(seconds: 3),
+      margin: const EdgeInsets.only(top: 10,left: 10,right: 10),
       colorText: Colors.white,
-      snackPosition: SnackPosition.BOTTOM,
-      margin: const EdgeInsets.all(16),
+      backgroundColor: color ?? Colors.redAccent,
+      icon: const Icon(Icons.error, color: Colors.white,),
     );
   }
 
-  static void showInfo(String message) {
+  static void showError(String message, {String title = 'Error'}) {
     Get.snackbar(
-      'Info',
+      title,
       message,
-      backgroundColor: AppColors.secondary,
-      colorText: Colors.white,
       snackPosition: SnackPosition.BOTTOM,
-      margin: const EdgeInsets.all(16),
+      backgroundColor: Colors.red.withOpacity(0.9),
+      colorText: Colors.white,
+      borderRadius: 10.0,
+      margin: const EdgeInsets.all(10.0),
+      padding: const EdgeInsets.all(15.0),
+      duration: const Duration(seconds: 3),
+      icon: Icon(
+        Icons.error_outline,
+        color: Colors.white,
+        size: 30,
+      ),
+      isDismissible: true,
+      snackStyle: SnackStyle.FLOATING,
     );
   }
 }

@@ -21,6 +21,9 @@ void main() async {
     );
   } catch (e, stack) {
     debugPrint('Firebase init failed: $e\n$stack');
+    // Optionally show an error screen or exit the app
+    runApp(ErrorApp(error: 'Failed to initialize Firebase: $e'));
+    return;
   }
 
   await AuthService.init();
@@ -28,4 +31,20 @@ void main() async {
   Logger.init(kReleaseMode ? LogMode.live : LogMode.debug);
 
   runApp(MyApp());
+}
+
+class ErrorApp extends StatelessWidget {
+  final String error;
+  const ErrorApp({super.key, required this.error});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        body: Center(
+          child: Text('Initialization Error: $error'),
+        ),
+      ),
+    );
+  }
 }

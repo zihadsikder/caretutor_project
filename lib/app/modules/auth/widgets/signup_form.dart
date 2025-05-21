@@ -14,7 +14,6 @@ class SignupForm extends GetView<AuthController> {
   final RxString _password = ''.obs;
   final RxInt _strength = 0.obs;
 
-  // Get strength text based on the strength value
   String get _strengthText {
     if (_password.isEmpty) {
       return 'Very Weak';
@@ -84,7 +83,6 @@ class SignupForm extends GetView<AuthController> {
             onChanged: _updatePasswordStrength,
           ),
           SizedBox(height: 10.h),
-          // Password Strength Indicator with Text
           Obx(() {
             if (_password.isEmpty) {
               return const SizedBox.shrink();
@@ -125,7 +123,7 @@ class SignupForm extends GetView<AuthController> {
                 ? null
                 : () {
               if (_formKey.currentState!.validate()) {
-                controller.signUp();
+                controller.signUp(context); // Pass context
               }
             },
             style: ElevatedButton.styleFrom(
