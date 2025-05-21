@@ -1,3 +1,4 @@
+
 ### Flutter Notes App
 
 A comprehensive note-taking application built with Flutter that allows users to create, read, update, and delete notes. The app features user authentication, real-time data synchronization with Firebase, and a clean, intuitive user interface.
@@ -67,3 +68,4 @@ cd caretutor_project
 Install dependencies
 
 flutter pub get
+
