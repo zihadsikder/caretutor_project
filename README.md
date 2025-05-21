@@ -61,8 +61,8 @@ A comprehensive note-taking application built with Flutter that allows users to 
 1. **Clone the repository**
 
 
-git clone https://github.com/yourusername/flutter-notes-app.git
-cd flutter-notes-app
+git clone https://github.com/zihadsikder/caretutor_project
+cd caretutor_project
 
 Install dependencies
 
